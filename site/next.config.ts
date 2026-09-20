@@ -10,6 +10,17 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // The old address keeps working, but sends visitors and search engines to the new one.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "getagentbar.vercel.app" }],
+        destination: "https://goatbar.melbora.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
