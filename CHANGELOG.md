@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.0 (2026-09-19)
+
+- Renamed to **GoatBar**. The app is now `GoatBar.exe`, the download is `GoatBar-windows-x64.zip`, and the site moved to https://goatbar.melbora.com. The old repository URL and the old site address still work.
+- Scoop: the bucket manifest is now `goatbar` (`scoop install goatbar`).
+
 ## v0.1.3 (2026-09-19)
 
 - macOS preview: a notification when a chat finishes (same as Windows). Asks for notification permission on first launch.
@@ -11,7 +16,7 @@
 ## v0.1.1 (2026-09-19)
 
 - Windows: a one-time notification on first launch explains the squares and the tray goat.
-- Install with Scoop: `scoop bucket add agentbar https://github.com/Vantage-Connections-Org/agentbar` then `scoop install agentbar`.
+- Install with Scoop: `scoop bucket add goatbar https://github.com/Vantage-Connections-Org/goatbar` then `scoop install goatbar`.
 
 ## v0.1.0 (2026-09-18)
 

@@ -24,35 +24,35 @@ jobs:
       - name: Toolchain
         run: swift --version
 
-      - name: Build and package AgentBar.app
+      - name: Build and package GoatBar.app
         id: package
         run: bash build-app.sh
 
       - name: Verify bundle
         run: |
           set -euo pipefail
-          test -f build/AgentBar.app/Contents/Info.plist
-          test -x build/AgentBar.app/Contents/MacOS/AgentBar
-          test -s build/AgentBar-mac.zip
-          lipo -info build/AgentBar.app/Contents/MacOS/AgentBar
-          /usr/libexec/PlistBuddy -c "Print :LSUIElement" build/AgentBar.app/Contents/Info.plist | grep -qx true
-          codesign --verify --verbose build/AgentBar.app
+          test -f build/GoatBar.app/Contents/Info.plist
+          test -x build/GoatBar.app/Contents/MacOS/GoatBar
+          test -s build/GoatBar-mac.zip
+          lipo -info build/GoatBar.app/Contents/MacOS/GoatBar
+          /usr/libexec/PlistBuddy -c "Print :LSUIElement" build/GoatBar.app/Contents/Info.plist | grep -qx true
+          codesign --verify --verbose build/GoatBar.app
 
       - name: Smoke test (launches and stays up)
         run: |
           set -euo pipefail
           # Real launch on the runner. No Claude/Codex sessions exist here, so this only proves
           # the app starts, scans the (missing) session folders without crashing, and keeps running.
-          ./build/AgentBar.app/Contents/MacOS/AgentBar > smoke.log 2>&1 &
+          ./build/GoatBar.app/Contents/MacOS/GoatBar > smoke.log 2>&1 &
           PID=$!
           sleep 8
           if ! kill -0 "$PID" 2>/dev/null; then
-            echo "AgentBar exited within 8 seconds:"; cat smoke.log; exit 1
+            echo "GoatBar exited within 8 seconds:"; cat smoke.log; exit 1
           fi
           # Screenshot the real menu bar while it runs (full-width strip + whole screen), for review.
           screencapture -x menubar-full.png || true
           kill "$PID"
-          echo "AgentBar stayed up for 8 seconds"
+          echo "GoatBar stayed up for 8 seconds"
           cat smoke.log
 
       - name: Upload smoke-test screenshot
@@ -63,15 +63,15 @@ jobs:
           path: mac/menubar-full.png
           if-no-files-found: ignore
 
-      - name: Upload AgentBar-mac.zip
+      - name: Upload GoatBar-mac.zip
         uses: actions/upload-artifact@v4
         with:
-          name: AgentBar-mac
-          path: mac/build/AgentBar-mac.zip
+          name: GoatBar-mac
+          path: mac/build/GoatBar-mac.zip
           if-no-files-found: error
 
       - name: Fail if the build failed
         if: ${{ failure() }}
         run: |
-          echo "::error::AgentBar macOS build or packaging failed"
+          echo "::error::GoatBar macOS build or packaging failed"
           exit 1

@@ -19,7 +19,7 @@ I made a Windows taskbar strip that shows which of my Claude Code chats are work
 
 Disclosure: this is my own project. It's free and MIT, no account, no telemetry.
 
-I run several Claude Code chats at once and kept alt-tabbing through terminals just to see which had finished. AgentBar puts one square per running chat in the empty part of the Windows taskbar:
+I run several Claude Code chats at once and kept alt-tabbing through terminals just to see which had finished. GoatBar puts one square per running chat in the empty part of the Windows taskbar:
 
 - Orange = working, green = done and waiting on you (stays green until you click it), dim green = done and you've looked, thin bar = idle.
 - The border is the chat's own `/color`, so the square matches its prompt bar.
@@ -36,7 +36,7 @@ Limits: Windows 10/11 (Mac is an early preview), taskbar at the bottom. Clicking
 
 Also works with Codex chats if you use both.
 
-Repo: https://github.com/Vantage-Connections-Org/agentbar
+Repo: https://github.com/Vantage-Connections-Org/goatbar
 
 Not affiliated with Anthropic. Feedback and bug reports welcome, especially "it didn't find my chat" with your terminal/editor.
 
@@ -55,11 +55,11 @@ Open-source Windows taskbar indicator for Codex CLI and Claude Code chats: worki
 
 Self-promo disclosure: I wrote this. Free, MIT, no API key, no network.
 
-If you run multiple Codex sessions (or Codex and Claude Code side by side), AgentBar shows one square per live chat in the Windows taskbar. Orange while it's working, green when it's finished and waiting on you, a thin bar when idle. Click a square to bring that chat's window to the front.
+If you run multiple Codex sessions (or Codex and Claude Code side by side), GoatBar shows one square per live chat in the Windows taskbar. Orange while it's working, green when it's finished and waiting on you, a thin bar when idle. Click a square to bring that chat's window to the front.
 
 How it tracks Codex without any API:
 
-- A live Codex chat holds `~/.codex/thread-writer-locks/<id>.lock` open. AgentBar tries to open each lock exclusively; if Windows says it's in use, the chat is live. If no `codex.exe` is running at all, every lock is treated as stale.
+- A live Codex chat holds `~/.codex/thread-writer-locks/<id>.lock` open. GoatBar tries to open each lock exclusively; if Windows says it's in use, the chat is live. If no `codex.exe` is running at all, every lock is treated as stale.
 - Status is the most recent `task_started` vs `task_complete` / `turn_aborted` event in that chat's rollout `.jsonl` (it tail-reads the last 256 KB).
 - The chat name comes from `~/.codex/session_index.jsonl`, falling back to the folder name.
 - To focus it, it walks up the process tree from `codex.exe` to the host app (Windows Terminal, VS Code, Cursor, Windsurf, WezTerm, JetBrains IDEs, etc.) and picks the window whose title contains the chat's folder.
@@ -68,7 +68,7 @@ It never writes to Codex's files. An optional hook in `~/.codex/hooks.json` (Ses
 
 Limits: Windows 10/11 (Mac is an early preview), bottom taskbar. It focuses the window, not the terminal tab. The lock/rollout files aren't a public interface, so a Codex update could break detection. Build from source with the .NET 8 SDK. A macOS menu-bar version is in progress, not released.
 
-https://github.com/Vantage-Connections-Org/agentbar
+https://github.com/Vantage-Connections-Org/goatbar
 
 Not affiliated with OpenAI. If it misses one of your Codex sessions, an issue with your setup would help a lot.
 
@@ -88,20 +88,20 @@ I wrote a small open-source utility that adds a status strip to the Windows 11 t
 
 My own project, free and MIT.
 
-AgentBar is a ~330 KB C#/WPF exe that puts a row of small squares in the empty area of the taskbar, left of the system tray. Each square is one running Claude Code or Codex session (terminal-based coding assistants), coloured by whether it's working, finished, or idle. Click one to bring the window running it to the front.
+GoatBar is a ~330 KB C#/WPF exe that puts a row of small squares in the empty area of the taskbar, left of the system tray. Each square is one running Claude Code or Codex session (terminal-based coding assistants), coloured by whether it's working, finished, or idle. Click one to bring the window running it to the front.
 
 Windows-specific bits that might interest people here:
 
 - Windows 11 has no supported way to add things to the taskbar, so the bar is a small window owned by the taskbar, which keeps it above it. It repositions itself as the taskbar changes.
 - To focus the right window it walks the process tree from the agent process up to the app hosting its terminal (Windows Terminal, VS Code, etc.) and matches that app's windows by title.
 - Tray icon toggles the bar; right-click gives Hide bar, Start with Windows, and Quit. A hidden bar stays hidden across restarts. New tray icons land in the `^` overflow, so you drag it out if you want it visible.
-- Single instance, installs to `%LOCALAPPDATA%\AgentBar` with a Start menu shortcut, `uninstall.ps1` removes it.
+- Single instance, installs to `%LOCALAPPDATA%\GoatBar` with a Start menu shortcut, `uninstall.ps1` removes it.
 
 No network access, no admin rights needed to run. It only reads the session files those tools keep locally.
 
 Limits: needs the taskbar at the bottom of the primary monitor. Download: a self-contained zip from GitHub Releases (no .NET needed), or Scoop.
 
-https://github.com/Vantage-Connections-Org/agentbar
+https://github.com/Vantage-Connections-Org/goatbar
 
 I'd appreciate hearing if it misbehaves with taskbar settings I haven't thought of.
 
@@ -114,7 +114,7 @@ Image: optional, `docs/closeup.png`.
 
 **Title**
 
-AgentBar: MIT-licensed Windows taskbar status for Claude Code and Codex chats, reads local files only
+GoatBar: MIT-licensed Windows taskbar status for Claude Code and Codex chats, reads local files only
 
 **Body**
 
@@ -139,6 +139,6 @@ Where help would be useful:
 
 Known fragility: the files it reads aren't public APIs, so upstream changes in either tool can break discovery.
 
-https://github.com/Vantage-Connections-Org/agentbar
+https://github.com/Vantage-Connections-Org/goatbar
 
 Not affiliated with Anthropic or OpenAI. Issues and PRs welcome.

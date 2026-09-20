@@ -1,4 +1,4 @@
-# AgentBar launch kit
+# GoatBar launch kit
 
 Drafts only. Nothing in this folder has been posted anywhere.
 
@@ -11,7 +11,7 @@ Drafts only. Nothing in this folder has been posted anywhere.
 
 ## Before posting anything
 
-- [ ] Replace every `https://getagentbar.vercel.app` with the real landing page URL (`grep -rn "https://getagentbar.vercel.app" launch/`).
+- [ ] Replace every `https://goatbar.melbora.com` with the real landing page URL (`grep -rn "https://goatbar.melbora.com" launch/`).
 - [ ] Repo is public and the README renders with all four `docs/` images.
 - [ ] Fresh-machine test of the README install: `git clone`, `.\install.ps1 -StartWithWindows`, a Claude Code chat and a Codex chat both show up, click-to-focus works. Launch traffic will hit the install first.
 - [x] Prebuilt release exists (v0.1.x self-contained zip); drafts updated to say so.
@@ -91,4 +91,4 @@ Composed only from real screenshots and the real icon.
 | `x-1200x675.png` | 1200x675 | X post / Reddit image post |
 | `demo-drag.gif` | 1000x120 | Real recording of dragging a square. Use for X post 1 / Reddit where a GIF is asked for |
 
-The site's own link preview (Open Graph, 1200x630) is generated from the same assets, so links to https://getagentbar.vercel.app unfurl with a real image.
+The site's own link preview (Open Graph, 1200x630) is generated from the same assets, so links to https://goatbar.melbora.com unfurl with a real image.

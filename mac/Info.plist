@@ -5,15 +5,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>AgentBar</string>
+	<string>GoatBar</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.vantageconnections.agentbar</string>
+	<string>org.vantageconnections.goatbar</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>AgentBar</string>
+	<string>GoatBar</string>
 	<key>CFBundleDisplayName</key>
-	<string>AgentBar</string>
+	<string>GoatBar</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

@@ -11,7 +11,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using Microsoft.Win32;
 
-namespace AgentBar;
+namespace GoatBar;
 
 class BarWindow : Window
 {
@@ -84,7 +84,7 @@ class BarWindow : Window
         ResizeMode = ResizeMode.NoResize;
         SizeToContent = SizeToContent.Width;
         Height = 48;
-        Title = "AgentBar";
+        Title = "GoatBar";
         Content = new Border { Background = Brushes.Transparent, Child = _panel, Padding = new Thickness(2, 0, 2, 0) };
 
         _taskbar = Native.FindWindow("Shell_TrayWnd", null);
@@ -170,7 +170,7 @@ class BarWindow : Window
         if (_dragging) return;
         var found = _discovery.Scan();
         _states = found.ToDictionary(s => s.Key, Effective);
-        // Notify when a chat goes from working to done while AgentBar is watching.
+        // Notify when a chat goes from working to done while GoatBar is watching.
         if (_lastStates != null && NotifyOnFinish)
             foreach (var s in found)
                 if (_states[s.Key] == "waiting" && _lastStates.TryGetValue(s.Key, out var was) && was == "working")
@@ -532,13 +532,13 @@ class BarWindow : Window
     public static bool StartsWithWindows()
     {
         using var key = Registry.CurrentUser.OpenSubKey(RunKey);
-        return key?.GetValue("AgentBar") != null;
+        return key?.GetValue("GoatBar") != null;
     }
 
     public static void SetStartWithWindows(bool on)
     {
         using var key = Registry.CurrentUser.CreateSubKey(RunKey);
-        if (on) key.SetValue("AgentBar", $"\"{Environment.ProcessPath}\"");
-        else key.DeleteValue("AgentBar", false);
+        if (on) key.SetValue("GoatBar", $"\"{Environment.ProcessPath}\"");
+        else key.DeleteValue("GoatBar", false);
     }
 }

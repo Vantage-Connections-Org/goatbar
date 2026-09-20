@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 
-namespace AgentBar;
+namespace GoatBar;
 
 static class Program
 {
@@ -27,7 +27,7 @@ static class Program
             return 0;
         }
 
-        using var mutex = new Mutex(true, @"Local\AgentBar.SingleInstance", out bool first);
+        using var mutex = new Mutex(true, @"Local\GoatBar.SingleInstance", out bool first);
         if (!first) return 0;
 
         var app = new Application { ShutdownMode = ShutdownMode.OnMainWindowClose };

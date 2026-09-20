@@ -2,7 +2,7 @@ import AppKit
 import SwiftUI
 
 @main
-struct AgentBarApp: App {
+struct GoatBarApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @StateObject private var store = Store()
 
@@ -155,7 +155,7 @@ struct ChatList: View {
 
             Divider().padding(.vertical, 4)
             MenuRow(title: "Mark all finished as seen") { store.markAllSeen() }
-            MenuRow(title: "Quit AgentBar") { NSApp.terminate(nil) }
+            MenuRow(title: "Quit GoatBar") { NSApp.terminate(nil) }
         }
         .padding(.bottom, 6)
         .frame(width: 340)

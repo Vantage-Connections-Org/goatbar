@@ -2,7 +2,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 
-namespace AgentBar;
+namespace GoatBar;
 
 record Session(string Tool, string Sid, string Name, string Cwd, string State, long Since, string Step, long HostPid, string Color = "")
 {

@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace AgentBar;
+namespace GoatBar;
 
 /// The right-click menu, shared by the bar and the tray icon. Dark, rounded,
 /// with icons and a toggle switch, to match the hover card.
@@ -106,7 +106,7 @@ static class AgentMenu
         var menu = new ContextMenu { Resources = Styles };
 
         var header = new StackPanel { Margin = new Thickness(2, 0, 2, 2) };
-        header.Children.Add(new TextBlock { Text = "AgentBar", FontSize = 13, FontWeight = FontWeights.SemiBold, Foreground = (Brush)Styles["Text"] });
+        header.Children.Add(new TextBlock { Text = "GoatBar", FontSize = 13, FontWeight = FontWeights.SemiBold, Foreground = (Brush)Styles["Text"] });
         header.Children.Add(new TextBlock { Text = summary, FontSize = 11, Foreground = (Brush)Styles["Sub"], Margin = new Thickness(0, 2, 0, 0) });
         menu.Items.Add(new MenuItem { Header = header, IsHitTestVisible = false, Focusable = false });
         menu.Items.Add(Divider());
@@ -126,7 +126,7 @@ static class AgentMenu
         menu.Items.Add(notify);
         menu.Items.Add(Item("Mark all finished as seen", Check, bar.MarkAllSeen));
         menu.Items.Add(Divider());
-        menu.Items.Add(Item("Quit AgentBar", Close, () => bar.Close()));
+        menu.Items.Add(Item("Quit GoatBar", Close, () => bar.Close()));
         return menu;
     }
 

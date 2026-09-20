@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
-  applicationName: "AgentBar",
+  applicationName: "GoatBar",
   keywords: [
     "Claude Code", "Codex", "OpenAI Codex CLI", "AI coding agents", "Windows taskbar",
     "agent status", "multiple Claude Code sessions", "developer tools", "open source",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    siteName: "AgentBar",
+    siteName: "GoatBar",
     title: TITLE,
     description: DESCRIPTION,
   },
@@ -40,7 +40,7 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "AgentBar",
+    name: "GoatBar",
     description: DESCRIPTION,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Windows 10, Windows 11",

@@ -1,4 +1,4 @@
-namespace AgentBar;
+namespace GoatBar;
 
 // 24x24 path data from simple-icons (https://simpleicons.org).
 static class Icons

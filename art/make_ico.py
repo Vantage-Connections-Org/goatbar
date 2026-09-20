@@ -1,4 +1,4 @@
-# Builds src/AgentBar.ico from the two source artworks (generated with GPT Image 2
+# Builds src/GoatBar.ico from the two source artworks (generated with GPT Image 2
 # on Higgsfield): icon-small.png (head only) for 16-24px, icon-large.png above that.
 #   cd art; py make_ico.py      (needs Pillow)
 from PIL import Image
@@ -21,5 +21,5 @@ for s, png in entries:
     out += struct.pack("<BBBBHHII", s % 256, s % 256, 0, 0, 1, 32, len(png), offset)
     offset += len(png)
     body += png
-open("../src/AgentBar.ico", "wb").write(out + body)
+open("../src/GoatBar.ico", "wb").write(out + body)
 large.resize((256, 256), Image.LANCZOS).save("../docs/icon.png")

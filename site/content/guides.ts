@@ -64,11 +64,11 @@ export const GUIDES: Guide[] = [
         ],
         code: "~/.claude/projects/<project>/<session-id>.jsonl",
       },
-      // Source: AgentBar README (agentbar/README.md)
+      // Source: GoatBar README (goatbar/README.md)
       {
         heading: "See which session is waiting on you",
         paragraphs: [
-          "With several terminals open, the hard part is knowing which one finished. AgentBar is a free, MIT-licensed Windows app that puts one square per running Claude Code or Codex chat in the taskbar: dull orange while working, green when done and waiting on you.",
+          "With several terminals open, the hard part is knowing which one finished. GoatBar is a free, MIT-licensed Windows app that puts one square per running Claude Code or Codex chat in the taskbar: dull orange while working, green when done and waiting on you.",
           "The square's border uses the chat's /color and its hover card shows your /rename name, folder, status and elapsed time. Click a square to bring that chat's window to the front.",
           "It reads the files Claude Code already keeps about its own chats, needs no API keys or network, and finds your chats without any configuration.",
         ],
@@ -157,11 +157,11 @@ export const GUIDES: Guide[] = [
   }
 }`,
       },
-      // Source: AgentBar README (agentbar/README.md)
+      // Source: GoatBar README (goatbar/README.md)
       {
         heading: "Or check the taskbar",
         paragraphs: [
-          "A bell or popup tells you something finished, but not which chat it was. AgentBar keeps one square per running chat in the Windows taskbar. It turns green when a chat is done and stays green until you click it, which brings that chat's window to the front.",
+          "A bell or popup tells you something finished, but not which chat it was. GoatBar keeps one square per running chat in the Windows taskbar. It turns green when a chat is done and stays green until you click it, which brings that chat's window to the front.",
           "After you look, the square goes dim green and fades to idle after 30 minutes of no activity. It works without hooks, and its optional Notification hook also turns a square blue when a chat is waiting on a permission prompt or a question.",
         ],
       },
@@ -224,18 +224,18 @@ export const GUIDES: Guide[] = [
 notifications = ["agent-turn-complete", "approval-requested"]
 notification_method = "bel"`,
       },
-      // Source: AgentBar README (agentbar/README.md)
+      // Source: GoatBar README (goatbar/README.md)
       {
         heading: "See every Codex chat in the taskbar",
         paragraphs: [
-          "AgentBar shows each live Codex chat as a square in the Windows taskbar, next to your Claude Code chats. It finds running chats from the lock files Codex holds open in ~/.codex/thread-writer-locks, reads working and done from the rollout log, and takes names from session_index.jsonl, so your /rename shows up.",
+          "GoatBar shows each live Codex chat as a square in the Windows taskbar, next to your Claude Code chats. It finds running chats from the lock files Codex holds open in ~/.codex/thread-writer-locks, reads working and done from the rollout log, and takes names from session_index.jsonl, so your /rename shows up.",
           "Hover a square for the name, folder, status and elapsed time, and click it to bring that chat's window forward. Adding the optional hook to ~/.codex/hooks.json also shows the current step. Codex asks you to trust new hooks once.",
           "On a Mac, a menu bar version is an early preview in the latest release.",
         ],
         code: String.raw`{
   "hooks": {
-    "SessionStart": [{ "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\AgentBar\\hooks\\agent-status.js\" start codex" }] }],
-    "PostToolUse":  [{ "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\AgentBar\\hooks\\agent-status.js\" tool codex" }] }]
+    "SessionStart": [{ "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\GoatBar\\hooks\\agent-status.js\" start codex" }] }],
+    "PostToolUse":  [{ "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\GoatBar\\hooks\\agent-status.js\" tool codex" }] }]
   }
 }`,
       },
@@ -327,19 +327,19 @@ notification_method = "bel"`,
   }
 }`,
       },
-      // Source: AgentBar README (agentbar/README.md)
+      // Source: GoatBar README (goatbar/README.md)
       {
-        heading: "A real-world example: AgentBar's status hook",
+        heading: "A real-world example: GoatBar's status hook",
         paragraphs: [
-          "AgentBar, a free Windows app that shows each Claude Code and Codex chat as a square in the taskbar, ships an optional hook script, agent-status.js. It works without hooks, but adding this one shows the step the agent is on in the hover card and turns a square blue when a chat waits for your answer.",
-          "It uses four events: SessionStart to register the chat (and launch AgentBar if it is not running), PreToolUse for the current step, PostToolUse matched to AskUserQuestion, and Notification for waiting prompts. Replace <you> with your user name. The hook needs Node.js.",
+          "GoatBar, a free Windows app that shows each Claude Code and Codex chat as a square in the taskbar, ships an optional hook script, agent-status.js. It works without hooks, but adding this one shows the step the agent is on in the hover card and turns a square blue when a chat waits for your answer.",
+          "It uses four events: SessionStart to register the chat (and launch GoatBar if it is not running), PreToolUse for the current step, PostToolUse matched to AskUserQuestion, and Notification for waiting prompts. Replace <you> with your user name. The hook needs Node.js.",
         ],
         code: String.raw`{
   "hooks": {
-    "SessionStart": [{ "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\AgentBar\\hooks\\agent-status.js\" start claude" }] }],
-    "PreToolUse":   [{ "matcher": "", "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\AgentBar\\hooks\\agent-status.js\" tool claude" }] }],
-    "PostToolUse":  [{ "matcher": "AskUserQuestion", "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\AgentBar\\hooks\\agent-status.js\" toolDone claude" }] }],
-    "Notification": [{ "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\AgentBar\\hooks\\agent-status.js\" ask claude" }] }]
+    "SessionStart": [{ "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\GoatBar\\hooks\\agent-status.js\" start claude" }] }],
+    "PreToolUse":   [{ "matcher": "", "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\GoatBar\\hooks\\agent-status.js\" tool claude" }] }],
+    "PostToolUse":  [{ "matcher": "AskUserQuestion", "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\GoatBar\\hooks\\agent-status.js\" toolDone claude" }] }],
+    "Notification": [{ "hooks": [{ "type": "command", "command": "node \"C:\\Users\\<you>\\AppData\\Local\\GoatBar\\hooks\\agent-status.js\" ask claude" }] }]
   }
 }`,
       },
@@ -407,11 +407,11 @@ notification_method = "bel"`,
           "Codex also has tui.notifications for built-in terminal alerts and a notify setting that runs an external program, currently only on agent-turn-complete.",
         ],
       },
-      // Source: AgentBar README (agentbar/README.md)
+      // Source: GoatBar README (goatbar/README.md)
       {
         heading: "Both in one taskbar",
         paragraphs: [
-          "If you run both tools, AgentBar shows each live Claude Code and Codex chat as a square in the Windows taskbar, with the tool's logo on each square. It finds Claude Code chats from ~/.claude/sessions/<pid>.json and Codex chats from the lock files in ~/.codex/thread-writer-locks.",
+          "If you run both tools, GoatBar shows each live Claude Code and Codex chat as a square in the Windows taskbar, with the tool's logo on each square. It finds Claude Code chats from ~/.claude/sessions/<pid>.json and Codex chats from the lock files in ~/.codex/thread-writer-locks.",
           "Names come from your /rename in either tool, via session_index.jsonl for Codex. It needs no API keys or network and never modifies either tool's files.",
         ],
       },
@@ -472,11 +472,11 @@ notification_condition = "always"`,
           "On Windows, a command handler can take commandWindows (command_windows in TOML), an optional override used only on Windows.",
         ],
       },
-      // Source: AgentBar README (agentbar/README.md)
+      // Source: GoatBar README (goatbar/README.md)
       {
         heading: "Or glance at the taskbar",
         paragraphs: [
-          "Alerts are easy to miss once several Codex chats are running. AgentBar shows each live Codex chat as a square in the Windows taskbar: dull orange while working, green when done and waiting on you. It stays green until you click it, which brings that chat's window to the front.",
+          "Alerts are easy to miss once several Codex chats are running. GoatBar shows each live Codex chat as a square in the Windows taskbar: dull orange while working, green when done and waiting on you. It stays green until you click it, which brings that chat's window to the front.",
           "It reads working and done from the chat's rollout log, so it needs no notify script and no hooks. Hover a square for the chat's name, folder, status and elapsed time.",
         ],
       },
@@ -543,12 +543,12 @@ notification_condition = "always"`,
       // Sources: https://code.claude.com/docs/en/cli-reference.md (--name / -n)
       //          https://code.claude.com/docs/en/commands.md (/color)
       //          https://github.com/openai/codex/blob/main/codex-rs/tui/src/slash_command.rs (/rename)
-      //          AgentBar README (agentbar/README.md)
+      //          GoatBar README (goatbar/README.md)
       {
         heading: "Tell the sessions apart",
         paragraphs: [
           "Name every session after its task. In Claude Code, start with -n or run /rename, and the name shows in /resume and the terminal title. /color sets the prompt bar to red, blue, green, yellow, purple, orange, pink or cyan. In Codex, /rename renames the current thread.",
-          "AgentBar puts one square per running Claude Code or Codex chat in the Windows taskbar. The border uses the Claude Code chat's /color, and the hover card shows the name, tool and folder, so each worktree is easy to spot. A green square means that agent is done and waiting on you. Click it to bring its window to the front.",
+          "GoatBar puts one square per running Claude Code or Codex chat in the Windows taskbar. The border uses the Claude Code chat's /color, and the hover card shows the name, tool and folder, so each worktree is easy to spot. A green square means that agent is done and waiting on you. Click it to bring its window to the front.",
         ],
         code: "claude -w feature-auth\n/rename feature-auth\n/color purple",
       },

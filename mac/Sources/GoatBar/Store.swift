@@ -51,7 +51,7 @@ final class Store: ObservableObject {
         var st: [String: String] = [:]
         for s in found { st[s.key] = effective(s) }
         known.formUnion(st.keys)
-        // Notify when a chat goes from working to done while AgentBar is watching.
+        // Notify when a chat goes from working to done while GoatBar is watching.
         if let last = lastStates {
             for s in found where st[s.key] == "waiting" && last[s.key] == "working" { Notifier.finished(s) }
         }
@@ -115,11 +115,11 @@ final class Store: ObservableObject {
     }
 }
 
-/// ~/Library/Application Support/AgentBar/<file>
+/// ~/Library/Application Support/GoatBar/<file>
 enum Persist {
     private static var dir: URL? {
         guard let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
-        let d = base.appendingPathComponent("AgentBar", isDirectory: true)
+        let d = base.appendingPathComponent("GoatBar", isDirectory: true)
         try? FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
         return d
     }

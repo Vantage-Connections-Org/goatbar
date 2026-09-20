@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: PageProps<"/guides/[slug]">):
   const g = GUIDES.find((x) => x.slug === slug);
   if (!g) return {};
   return {
-    title: `${g.title} | AgentBar`,
+    title: `${g.title} | GoatBar`,
     description: g.description,
     alternates: { canonical: `/guides/${g.slug}` },
     openGraph: { type: "article", title: g.title, description: g.description, url: `/guides/${g.slug}` },
@@ -61,7 +61,7 @@ export default async function GuidePage({ params }: PageProps<"/guides/[slug]">)
         </article>
 
         <aside className="mt-16 flex flex-col gap-4 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-[44ch] text-muted">AgentBar shows every Claude Code and Codex chat in your Windows taskbar. Free and open source.</p>
+          <p className="max-w-[44ch] text-muted">GoatBar shows every Claude Code and Codex chat in your Windows taskbar. Free and open source.</p>
           <DownloadButton className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-accent-ink transition hover:brightness-110 active:scale-[0.98]" />
         </aside>
       </main>

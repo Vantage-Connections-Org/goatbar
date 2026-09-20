@@ -4,7 +4,7 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { GUIDES } from "@/content/guides";
 
 export const metadata: Metadata = {
-  title: "Guides for Claude Code and Codex power users | AgentBar",
+  title: "Guides for Claude Code and Codex power users | GoatBar",
   description: "Practical guides for running several Claude Code and Codex CLI sessions at once on Windows: tracking them, naming them, and knowing when each one is done.",
   alternates: { canonical: "/guides" },
 };

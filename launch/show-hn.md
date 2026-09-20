@@ -4,17 +4,17 @@ DRAFT. Do not post until the checklist in `launch/README.md` is done.
 
 ## Title (76 chars)
 
-Show HN: AgentBar – Claude Code and Codex chat status in the Windows taskbar
+Show HN: GoatBar – Claude Code and Codex chat status in the Windows taskbar
 
 ## URL field
 
-https://github.com/Vantage-Connections-Org/agentbar
+https://github.com/Vantage-Connections-Org/goatbar
 
-(Link the repo, not https://getagentbar.vercel.app. HN readers want the code first. Put https://getagentbar.vercel.app in the comment instead.)
+(Link the repo, not https://goatbar.melbora.com. HN readers want the code first. Put https://goatbar.melbora.com in the comment instead.)
 
 ## First comment (post right after submitting)
 
-Hi HN. I usually have several Claude Code and Codex chats running at once across a few editor and terminal windows, and I kept cycling through them just to see which ones had finished. AgentBar puts one small square per running chat in the empty part of the Windows taskbar, next to the tray.
+Hi HN. I usually have several Claude Code and Codex chats running at once across a few editor and terminal windows, and I kept cycling through them just to see which ones had finished. GoatBar puts one small square per running chat in the empty part of the Windows taskbar, next to the tray.
 
 What it shows:
 
@@ -28,7 +28,7 @@ How it works:
 It doesn't talk to any API and makes no network calls. It reads the files each tool already writes about its own chats, and never modifies them:
 
 - Claude Code: `~/.claude/sessions/<pid>.json`, checked against the live process table so stale files for dead processes are skipped. Status (`busy`/`idle`) comes from the same file. The name is your `/rename` if you set one, otherwise the auto-generated title, read from the tail of the chat transcript `.jsonl`.
-- Codex: a live chat holds `~/.codex/thread-writer-locks/<id>.lock` open, so AgentBar tries to open each lock exclusively and treats a sharing violation as "this chat is live". Status is the last `task_started` / `task_complete` / `turn_aborted` event in the chat's rollout log. Names come from `~/.codex/session_index.jsonl`.
+- Codex: a live chat holds `~/.codex/thread-writer-locks/<id>.lock` open, so GoatBar tries to open each lock exclusively and treats a sharing violation as "this chat is live". Status is the last `task_started` / `task_complete` / `turn_aborted` event in the chat's rollout log. Names come from `~/.codex/session_index.jsonl`.
 - To focus a chat, it walks up the process tree from `claude.exe` / `codex.exe` to the app hosting the terminal, then picks that app's window whose title contains the chat's folder.
 - It re-scans every 800 ms and caches by file length, so transcripts are only tail-read when they grow.
 
@@ -46,7 +46,7 @@ Limitations, honestly:
 
 It's free and MIT licensed. Not affiliated with Anthropic or OpenAI.
 
-Repo: https://github.com/Vantage-Connections-Org/agentbar
-Page: https://getagentbar.vercel.app
+Repo: https://github.com/Vantage-Connections-Org/goatbar
+Page: https://goatbar.melbora.com
 
 I'd like feedback on two things in particular: whether discovery breaks with your setup (different terminal, WSL, remote sessions, multiple monitors), and whether there's a less hacky way to sit in the Windows 11 taskbar than a taskbar-owned window. Bug reports with your terminal/editor name are very welcome.

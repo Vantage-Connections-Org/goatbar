@@ -1,5 +1,5 @@
 name: Feature idea
-description: Suggest something AgentBar should do
+description: Suggest something GoatBar should do
 labels: [enhancement]
 body:
   - type: textarea

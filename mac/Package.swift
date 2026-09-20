@@ -2,9 +2,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "AgentBar",
+    name: "GoatBar",
     platforms: [.macOS(.v13)],
     targets: [
-        .executableTarget(name: "AgentBar", path: "Sources/AgentBar"),
+        .executableTarget(name: "GoatBar", path: "Sources/GoatBar"),
     ]
 )

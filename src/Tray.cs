@@ -1,7 +1,7 @@
 using System.IO;
 using Forms = System.Windows.Forms;
 
-namespace AgentBar;
+namespace GoatBar;
 
 /// Tray icon: click to show/hide the bar; right-click for the menu. The tooltip
 /// counts chats by state, so the tray alone tells you if anything needs you.
@@ -11,7 +11,7 @@ sealed class Tray : IDisposable
 
     public Tray(BarWindow bar)
     {
-        _icon = new Forms.NotifyIcon { Icon = LoadIcon(), Text = "AgentBar", Visible = true };
+        _icon = new Forms.NotifyIcon { Icon = LoadIcon(), Text = "GoatBar", Visible = true };
         _icon.MouseClick += (_, e) =>
         {
             if (e.Button == Forms.MouseButtons.Left) bar.ToggleVisible();
@@ -21,7 +21,7 @@ sealed class Tray : IDisposable
 
     static System.Drawing.Icon LoadIcon()
     {
-        using Stream s = typeof(Tray).Assembly.GetManifestResourceStream("AgentBar.ico");
+        using Stream s = typeof(Tray).Assembly.GetManifestResourceStream("GoatBar.ico");
         return s != null
             ? new System.Drawing.Icon(s, Forms.SystemInformation.SmallIconSize)
             : System.Drawing.Icon.ExtractAssociatedIcon(Environment.ProcessPath);
@@ -33,7 +33,7 @@ sealed class Tray : IDisposable
     {
         string flag = Path.Combine(AppContext.BaseDirectory, "welcomed");
         if (File.Exists(flag)) return;
-        _icon.ShowBalloonTip(10000, "AgentBar is running",
+        _icon.ShowBalloonTip(10000, "GoatBar is running",
             "Your Claude Code and Codex chats show up as squares next to the tray. Click the goat to hide or show the bar; right-click it for Start with Windows.",
             Forms.ToolTipIcon.None);
         try { File.WriteAllText(flag, ""); } catch { }
@@ -43,7 +43,7 @@ sealed class Tray : IDisposable
 
     public void Update(string summary, bool hidden)
     {
-        string text = "AgentBar: " + summary + (hidden ? " (bar hidden)" : "");
+        string text = "GoatBar: " + summary + (hidden ? " (bar hidden)" : "");
         _icon.Text = text.Length > 127 ? text[..127] : text; // Windows limit
     }
 

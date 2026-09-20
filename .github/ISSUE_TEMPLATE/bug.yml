@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in AgentBar doesn't work as expected
+description: Something in GoatBar doesn't work as expected
 labels: [bug]
 body:
   - type: dropdown
@@ -12,7 +12,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: AgentBar version
+      label: GoatBar version
       description: Release tag (e.g. v0.1.0) or commit if you built from source
   - type: dropdown
     id: tools

@@ -10,7 +10,7 @@ import { DOWNLOAD_URL, REPO_URL } from "@/lib/site";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 
 const INSTALL = `git clone ${REPO_URL}
-cd agentbar
+cd goatbar
 .\\install.ps1 -StartWithWindows`;
 
 // The four states, drawn with the same colours the app uses.
@@ -35,7 +35,7 @@ export default function Home() {
               Every agent chat, one glance at your taskbar.
             </h1>
             <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-muted">
-              AgentBar shows each running Claude Code and Codex chat as a square in your Windows taskbar. Click one to jump to it.
+              GoatBar shows each running Claude Code and Codex chat as a square in your Windows taskbar. Click one to jump to it.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <DownloadButton className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-accent-ink transition hover:brightness-110 active:scale-[0.98]" />
@@ -53,7 +53,7 @@ export default function Home() {
             <div className="overflow-hidden rounded-2xl border border-line bg-[#18181a] p-3 shadow-[0_24px_60px_-24px_rgb(22_24_26/0.45)]">
               <Image
                 src="/hover-card.png"
-                alt="AgentBar in the Windows taskbar: chat squares left of the system tray, with a hover card showing a chat's name, folder, status and current step"
+                alt="GoatBar in the Windows taskbar: chat squares left of the system tray, with a hover card showing a chat's name, folder, status and current step"
                 width={1140}
                 height={410}
                 priority
@@ -109,7 +109,7 @@ export default function Home() {
                 <div className="mt-auto bg-[#1c1c1c] px-4 pb-4 pt-6">
                   <Image
                     src="/taskbar.png"
-                    alt="The Windows 11 taskbar with AgentBar squares next to the system tray"
+                    alt="The Windows 11 taskbar with GoatBar squares next to the system tray"
                     width={804}
                     height={157}
                     className="h-auto w-full"
@@ -121,7 +121,7 @@ export default function Home() {
               <div className="flex h-full flex-col rounded-2xl border border-line bg-accent-soft p-6">
                 <HardDrives size={28} className="text-accent" />
                 <h3 className="mt-4 text-lg font-semibold">Local files only. No keys, no network.</h3>
-                <p className="mt-2 text-muted">AgentBar reads the session files Claude Code and Codex already keep on your machine, and never changes them.</p>
+                <p className="mt-2 text-muted">GoatBar reads the session files Claude Code and Codex already keep on your machine, and never changes them.</p>
                 <code className="mt-5 block rounded-lg bg-surface px-3 py-2 font-mono text-sm leading-relaxed">
                   ~/.claude/sessions
                   <br />
@@ -143,7 +143,7 @@ export default function Home() {
                   preload="none"
                   width={1000}
                   height={120}
-                  aria-label="Dragging a chat square along the AgentBar row: it lights up while held and drops into a new position"
+                  aria-label="Dragging a chat square along the GoatBar row: it lights up while held and drops into a new position"
                   className="mt-auto h-auto w-full rounded-lg pt-5"
                 >
                   <source src="/demo-drag.webm" type="video/webm" />
@@ -158,7 +158,7 @@ export default function Home() {
                   <h3 className="mt-4 text-lg font-semibold">Claude Code and Codex, found automatically</h3>
                   <p className="mt-2 max-w-[44ch] text-muted">No setup. An optional hook adds the step each agent is on and a blue &quot;needs an answer&quot; state.</p>
                 </div>
-                <Image src="/goat.png" alt="The AgentBar goat mascot peeking over a taskbar" width={140} height={140} className="shrink-0 self-center" />
+                <Image src="/goat.png" alt="The GoatBar goat mascot peeking over a taskbar" width={140} height={140} className="shrink-0 self-center" />
               </div>
             </Reveal>
           </div>
@@ -177,7 +177,7 @@ export default function Home() {
                 className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#4ade80] px-5 py-3 font-medium text-[#0b2415] transition hover:brightness-110 active:scale-[0.98]"
               >
                 <DownloadSimple size={20} weight="bold" />
-                Download AgentBar.zip
+                Download GoatBar.zip
               </a>
               <p className="mt-4 max-w-[52ch] text-sm text-zinc-400">
                 The app isn&apos;t code-signed yet, so Windows SmartScreen may ask first: choose More info, then Run anyway. Right-click the tray goat for Start with Windows.

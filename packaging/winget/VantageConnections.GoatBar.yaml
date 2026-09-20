@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.version.1.9.0.schema.json
-PackageIdentifier: VantageConnections.AgentBar
+PackageIdentifier: VantageConnections.GoatBar
 PackageVersion: 0.1.3
 DefaultLocale: en-US
 ManifestType: version

@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace AgentBar;
+namespace GoatBar;
 
 static class Native
 {

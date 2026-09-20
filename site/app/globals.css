@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* One palette, both themes. Accent = AgentBar's "done" green. */
+/* One palette, both themes. Accent = GoatBar's "done" green. */
 :root {
   --bg: #f6f7f5;
   --surface: #ffffff;

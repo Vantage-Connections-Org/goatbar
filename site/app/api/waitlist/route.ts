@@ -3,7 +3,7 @@ import { REPO_URL, SITE_URL } from "@/lib/site";
 
 // Mac waitlist: adds the address to a Resend segment and sends one welcome email.
 // Needs RESEND_API_KEY and RESEND_SEGMENT_ID (Vercel env vars).
-const FROM = process.env.WAITLIST_FROM ?? "AgentBar <agentbar@vantageconnections.com>";
+const FROM = process.env.WAITLIST_FROM ?? "GoatBar <goatbar@vantageconnections.com>";
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 // Best-effort per-instance rate limit: plenty for a waitlist, no extra infrastructure.
@@ -53,10 +53,10 @@ export async function POST(request: Request) {
   const sent = await resend.emails.send({
     from: FROM,
     to: email,
-    subject: "You're on the AgentBar for Mac waitlist",
+    subject: "You're on the GoatBar for Mac waitlist",
     text: welcomeText(),
     html: welcomeHtml(),
-    headers: { "List-Unsubscribe": `<mailto:agentbar@vantageconnections.com?subject=unsubscribe>` },
+    headers: { "List-Unsubscribe": `<mailto:goatbar@vantageconnections.com?subject=unsubscribe>` },
   });
   if (sent.error) console.error("waitlist: welcome email failed", sent.error); // they're still on the list
 
@@ -65,9 +65,9 @@ export async function POST(request: Request) {
 
 function welcomeText() {
   return [
-    "Thanks for joining the AgentBar for Mac waitlist.",
+    "Thanks for joining the GoatBar for Mac waitlist.",
     "",
-    "AgentBar shows every running Claude Code and Codex chat in your taskbar, so you can see which agents are working and which are waiting on you.",
+    "GoatBar shows every running Claude Code and Codex chat in your taskbar, so you can see which agents are working and which are waiting on you.",
     "",
     "The Mac menu bar version is in progress. You'll get one email when it ships.",
     "",
@@ -83,9 +83,9 @@ function welcomeHtml() {
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border:1px solid #dde1da;border-radius:16px">
       <tr><td style="padding:28px 28px 8px">
-        <img src="${SITE_URL}/goat-head.png" width="56" height="56" alt="AgentBar goat" style="display:block">
-        <h1 style="font-size:20px;line-height:1.3;margin:16px 0 8px">You're on the AgentBar for Mac waitlist</h1>
-        <p style="font-size:15px;line-height:1.6;color:#555c62;margin:0 0 16px">AgentBar shows every running Claude Code and Codex chat in your taskbar, so you can see which agents are working and which are waiting on you.</p>
+        <img src="${SITE_URL}/goat-head.png" width="56" height="56" alt="GoatBar goat" style="display:block">
+        <h1 style="font-size:20px;line-height:1.3;margin:16px 0 8px">You're on the GoatBar for Mac waitlist</h1>
+        <p style="font-size:15px;line-height:1.6;color:#555c62;margin:0 0 16px">GoatBar shows every running Claude Code and Codex chat in your taskbar, so you can see which agents are working and which are waiting on you.</p>
         <p style="font-size:15px;line-height:1.6;color:#555c62;margin:0 0 16px">The Mac menu bar version is in progress. You'll get one email when it ships.</p>
       </td></tr>
       <tr><td style="padding:0 28px 28px">

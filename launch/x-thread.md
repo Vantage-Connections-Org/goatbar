@@ -65,8 +65,8 @@ Limits: Windows 10/11, taskbar at the bottom, exe not code-signed yet. Click foc
 
 A macOS menu-bar preview is in the latest release.
 
-github.com/Vantage-Connections-Org/agentbar
-https://getagentbar.vercel.app
+github.com/Vantage-Connections-Org/goatbar
+https://goatbar.melbora.com
 
 ---
 

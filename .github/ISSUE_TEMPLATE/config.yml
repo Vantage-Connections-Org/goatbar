@@ -1,5 +1,5 @@
 blank_issues_enabled: true
 contact_links:
   - name: Mac version waitlist
-    url: https://getagentbar.vercel.app/#mac
+    url: https://goatbar.melbora.com/#mac
     about: Get an email when the stable macOS version ships.

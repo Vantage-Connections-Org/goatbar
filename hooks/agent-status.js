@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Optional hook for AgentBar: adds live detail (current step, "needs an answer")
+// Optional hook for GoatBar: adds live detail (current step, "needs an answer")
 // on top of what the bar already reads from Claude Code / Codex session files.
 // Shared by Claude Code and Codex hooks:
 //   node agent-status.js <event> <tool>     event: start|prompt|tool|toolDone|ask|stop|end
@@ -10,9 +10,9 @@ const path = require('path');
 const { spawn, spawnSync } = require('child_process');
 
 const DIR = path.join(os.homedir(), '.claude', 'agent-status');
-// Where AgentBar.exe lives: $AGENTBAR_EXE, else the install.ps1 default.
-const BAR = process.env.AGENTBAR_EXE
-  || path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'), 'AgentBar', 'AgentBar.exe');
+// Where GoatBar.exe lives: $GOATBAR_EXE, else the install.ps1 default.
+const BAR = process.env.GOATBAR_EXE
+  || path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'), 'GoatBar', 'GoatBar.exe');
 
 function fileFor(tool, sid) {
   return path.join(DIR, `${tool}-${String(sid || 'default').replace(/[^\w-]/g, '')}.json`);
@@ -25,7 +25,7 @@ function write(file, obj) {
   fs.renameSync(tmp, file); // atomic, so the bar never reads half a file
 }
 
-// Ask AgentBar.exe which agent process and host window (Zed, Terminal…) own us.
+// Ask GoatBar.exe which agent process and host window (Zed, Terminal…) own us.
 function who() {
   if (!fs.existsSync(BAR)) return {};
   try {
@@ -66,7 +66,7 @@ function stepOf(input) {
 
 module.exports = { update, patchInfo, launchBar };
 
-if (require.main === module && !process.env.AGENTBAR_BG) {
+if (require.main === module && !process.env.GOATBAR_BG) {
   const [event, tool = 'claude'] = process.argv.slice(2);
   let input = {};
   try { input = JSON.parse(fs.readFileSync(0, 'utf8') || '{}'); } catch {}

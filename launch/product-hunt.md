@@ -4,7 +4,7 @@ DRAFT. Do not submit until the checklist in `launch/README.md` is done.
 
 ## Name
 
-AgentBar
+GoatBar
 
 ## Tagline (56 chars, limit 60)
 
@@ -12,8 +12,8 @@ Your Claude Code and Codex chats, in the Windows taskbar
 
 ## Links
 
-- Website: https://getagentbar.vercel.app
-- GitHub: https://github.com/Vantage-Connections-Org/agentbar
+- Website: https://goatbar.melbora.com
+- GitHub: https://github.com/Vantage-Connections-Org/goatbar
 
 ## Pricing
 
@@ -25,11 +25,11 @@ Developer Tools, Open Source, Windows
 
 ## Description
 
-AgentBar shows every running Claude Code and Codex chat as a small square in the empty part of your Windows taskbar. The background tells you the status: orange while it's working, green when it's done and waiting on you, blue when it needs an answer (with the optional hook), a thin bar when idle. Hover for the chat's name, folder and elapsed time; click to bring its window to the front. It reads the session files each tool already keeps on disk. No API keys, no network, no account.
+GoatBar shows every running Claude Code and Codex chat as a small square in the empty part of your Windows taskbar. The background tells you the status: orange while it's working, green when it's done and waiting on you, blue when it needs an answer (with the optional hook), a thin bar when idle. Hover for the chat's name, folder and elapsed time; click to bring its window to the front. It reads the session files each tool already keeps on disk. No API keys, no network, no account.
 
 ## Maker's first comment
 
-Hi Product Hunt. I made AgentBar because I run several Claude Code and Codex chats at once and kept cycling through terminal windows to see which ones had finished.
+Hi Product Hunt. I made GoatBar because I run several Claude Code and Codex chats at once and kept cycling through terminal windows to see which ones had finished.
 
 What it does:
 - One square per running chat, next to the system tray.
