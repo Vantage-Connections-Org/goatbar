@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.9.0.schema.json
 PackageIdentifier: VantageConnections.GoatBar
-PackageVersion: 0.1.3
+PackageVersion: 0.2.0
 PackageLocale: en-US
 Publisher: Vantage Connections
 PublisherUrl: https://github.com/Vantage-Connections-Org
@@ -16,6 +16,6 @@ Tags:
   - ai-agents
   - taskbar
   - developer-tools
-ReleaseNotesUrl: https://github.com/Vantage-Connections-Org/goatbar/releases/tag/v0.1.3
+ReleaseNotesUrl: https://github.com/Vantage-Connections-Org/goatbar/releases/tag/v0.2.0
 ManifestType: defaultLocale
 ManifestVersion: 1.9.0

@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.9.0.schema.json
 PackageIdentifier: VantageConnections.GoatBar
-PackageVersion: 0.1.3
+PackageVersion: 0.2.0
 InstallerType: zip
 NestedInstallerType: portable
 NestedInstallerFiles:
@@ -9,7 +9,7 @@ NestedInstallerFiles:
 MinimumOSVersion: 10.0.17763.0
 Installers:
   - Architecture: x64
-    InstallerUrl: https://github.com/Vantage-Connections-Org/goatbar/releases/download/v0.1.3/GoatBar-windows-x64.zip
-    InstallerSha256: 519A8CA75A5995050E74956A543763D52D2C4388062F69705A9940463C483D47
+    InstallerUrl: https://github.com/Vantage-Connections-Org/goatbar/releases/download/v0.2.0/GoatBar-windows-x64.zip
+    InstallerSha256: 1953A8820313C117BC3543E74080395A945CC37973F121C414EF38860D0491D1
 ManifestType: installer
 ManifestVersion: 1.9.0
