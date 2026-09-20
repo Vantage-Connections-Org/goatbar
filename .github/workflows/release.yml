@@ -80,7 +80,7 @@ jobs:
 
           **Windows 10/11:** `GoatBar-windows-x64.zip`. Unzip anywhere (for example `%LOCALAPPDATA%\GoatBar`) and run `GoatBar.exe`. No .NET install needed. The exe isn't code-signed yet, so Windows SmartScreen may ask you to confirm: click *More info* then *Run anyway*.
 
-          **macOS 13+ (preview):** `GoatBar-mac-preview.zip`. A first build of the menu bar version. It compiles and packages in CI but hasn't been widely tested yet; please [open an issue](https://github.com/Vantage-Connections-Org/goatbar/issues) with what you see. Unsigned: right-click the app and choose *Open* the first time.
+          **macOS 13+ (preview):** `GoatBar-mac-preview.zip`. A first build of the menu bar version. It compiles and packages in CI but hasn't been widely tested yet; please [open an issue](https://github.com/Vantage-Connections-Org/goatbar/issues) with what you see. Not notarized: macOS blocks it on first launch. Open System Settings > Privacy & Security, scroll to Security, and click *Open Anyway*.
 
           Optional live-step hook: see the README.
           EOF
