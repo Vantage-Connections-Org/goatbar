@@ -47,7 +47,8 @@ final class Store: ObservableObject {
     }
 
     func refresh() {
-        let found = discovery.scan()
+        var seenKeys = Set<String>()
+        let found = discovery.scan().filter { seenKeys.insert($0.key).inserted } // duplicate keys break ForEach
         var st: [String: String] = [:]
         for s in found { st[s.key] = effective(s) }
         known.formUnion(st.keys)
@@ -63,7 +64,8 @@ final class Store: ObservableObject {
         let rank = Dictionary(order.enumerated().map { ($0.element, $0.offset) }, uniquingKeysWith: { a, _ in a })
         let sorted = found.sorted { (rank[$0.key] ?? 0) < (rank[$1.key] ?? 0) }
 
-        now = Date()
+        let stamp = Date()
+        if Int(stamp.timeIntervalSince1970) / 30 != Int(now.timeIntervalSince1970) / 30 { now = stamp } // elapsed times tick, not every frame
         let sig = sorted.map { "\($0.key):\(st[$0.key] ?? ""):\($0.name):\($0.step):\($0.color):\($0.since)" }
             .joined(separator: "|")
         if sig == signature { return }
@@ -149,9 +151,22 @@ enum HostFocus {
 enum Notifier {
     static var available: Bool { Bundle.main.bundleIdentifier != nil && Bundle.main.bundleURL.pathExtension == "app" }
 
+    private static let presenter = Presenter()
+
     static func requestPermission() {
         guard available else { return }
+        UNUserNotificationCenter.current().delegate = presenter // show banners even when we're frontmost
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
+    }
+
+    /// Without this, macOS hides notifications while GoatBar is the active app,
+    /// which is exactly when the dropdown is open.
+    final class Presenter: NSObject, UNUserNotificationCenterDelegate {
+        func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                    willPresent notification: UNNotification,
+                                    withCompletionHandler handler: @escaping (UNNotificationPresentationOptions) -> Void) {
+            handler([.banner, .sound])
+        }
     }
 
     static func finished(_ s: Session) {

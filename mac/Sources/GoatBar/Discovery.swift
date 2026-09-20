@@ -34,6 +34,7 @@ final class Discovery {
     private var codexCache: [String: CodexCache] = [:]
     private var hosts: [pid_t: pid_t] = [:]
     private var codexNames: [String: String] = [:]
+    private var rolloutMisses: [String: Date] = [:]
     private var codexIndexTime: Date?
 
     func scan() -> [Session] {
@@ -50,7 +51,7 @@ final class Discovery {
         for file in files where file.hasSuffix(".json") {
             guard let data = fm.contents(atPath: claudeSessions + "/" + file), let r = JSON.object(data) else { continue }
             let pid = pid_t(truncatingIfNeeded: JSON.num(r, "pid"))
-            guard pid > 0, Proc.alive(pid) else { continue }
+            guard pid > 0, table[pid] != nil, Proc.alive(pid) else { continue }
             let sid = JSON.str(r, "sessionId"), cwd = JSON.str(r, "cwd")
             if sid.isEmpty { continue }
 
@@ -89,7 +90,7 @@ final class Discovery {
         let known = meta[sid]
         if let c = known, c.len == len { return (c.custom ?? c.title, c.color) }
 
-        let bytes = known != nil ? min(len, 512 * 1024) : len
+        let bytes = min(len, 512 * 1024) // never read a whole transcript: they reach hundreds of MB
         let found = Files.lastMatches(path, len: len, bytes: bytes, [
             ("\"type\":\"custom-title\"", "customTitle"),
             ("\"type\":\"ai-title\"", "aiTitle"),
@@ -110,7 +111,8 @@ final class Discovery {
         guard let files = try? fm.contentsOfDirectory(atPath: locks) else { return }
         let codexPid = table.first(where: { $0.value.name == "codex" })?.key
             ?? table.first(where: { $0.value.name.lowercased().hasPrefix("codex") })?.key
-        guard let codexPid else { return } // no Codex running: every lock is stale
+        // No codex process found (it can run under a node wrapper, reported as "node"): still list
+        // the chats the lock files prove are live, just without an app to focus.
         loadCodexNames()
 
         for file in files where file.hasSuffix(".lock") {
@@ -123,12 +125,13 @@ final class Discovery {
             var step = ""
             if state == "working", let h = overlay("codex", id) { step = JSON.str(h, "step") }
             list.append(Session(tool: "codex", sid: id, name: name, cwd: cwd, state: state, since: since,
-                                step: step, hostPid: hostOf(codexPid, table), color: ""))
+                                step: step, hostPid: codexPid.map { hostOf($0, table) } ?? 0, color: ""))
         }
     }
 
     private func rollout(_ id: String) -> String? {
         if let p = rollouts[id], fm.fileExists(atPath: p) { return p }
+        if let missed = rolloutMisses[id], Date().timeIntervalSince(missed) < 30 { return nil } // don't re-walk every tick
         let dir = codexHome + "/sessions"
         guard let e = fm.enumerator(atPath: dir) else { return nil }
         let suffix = id + ".jsonl"
@@ -139,6 +142,7 @@ final class Discovery {
                 return p
             }
         }
+        rolloutMisses[id] = Date()
         return nil
     }
 
@@ -160,8 +164,8 @@ final class Discovery {
             else if line.contains("\"type\":\"task_complete\"") || line.contains("\"type\":\"turn_aborted\"") { kind = "idle" }
             else { continue }
             guard let o = JSON.object(Data(line.utf8)) else { continue }
+            guard let t = JSON.isoMillis(JSON.str(o, "timestamp")) ?? Files.modifiedMillis(rollout) else { continue }
             state = kind
-            guard let t = JSON.isoMillis(JSON.str(o, "timestamp")) else { continue }
             since = t
             break
         }
@@ -197,7 +201,7 @@ final class Discovery {
             }
             cur = p.ppid
         }
-        hosts[pid] = host
+        if host != 0 { hosts[pid] = host } // a failed walk (tmux, ssh) may succeed later
         return host
     }
 
@@ -227,12 +231,26 @@ enum JSON {
     private static let iso = ISO8601DateFormatter()
 
     static func isoMillis(_ s: String) -> Int64? {
-        guard let d = isoFrac.date(from: s) ?? iso.date(from: s) else { return nil }
-        return Int64(d.timeIntervalSince1970 * 1000)
+        if let d = isoFrac.date(from: s) ?? iso.date(from: s) { return Int64(d.timeIntervalSince1970 * 1000) }
+        // Microsecond precision (".123456Z") and other odd shapes: trim to milliseconds and retry.
+        if let dot = s.firstIndex(of: "."), let end = s.firstIndex(where: { $0 == "Z" || $0 == "+" }), dot < end {
+            let frac = s[s.index(after: dot)..<end]
+            if frac.count != 3 {
+                let trimmed = s[s.startIndex...dot] + frac.prefix(3).padding(toLength: 3, withPad: "0", startingAt: 0) + s[end...]
+                return isoFrac.date(from: String(trimmed)).map { Int64($0.timeIntervalSince1970 * 1000) }
+            }
+        }
+        return nil
     }
 }
 
 enum Files {
+    static func modifiedMillis(_ path: String) -> Int64? {
+        guard let attrs = try? FileManager.default.attributesOfItem(atPath: path),
+              let d = attrs[.modificationDate] as? Date else { return nil }
+        return Int64(d.timeIntervalSince1970 * 1000)
+    }
+
     static func size(_ path: String) -> Int64? {
         guard let attrs = try? FileManager.default.attributesOfItem(atPath: path),
               let n = attrs[.size] as? NSNumber else { return nil }
@@ -245,7 +263,7 @@ enum Files {
         let fd = open(path, O_RDONLY)
         if fd < 0 { return false }
         defer { close(fd) }
-        if flock(fd, LOCK_EX | LOCK_NB) == 0 {
+        if flock(fd, LOCK_SH | LOCK_NB) == 0 { // shared: still fails against Codex's exclusive lock
             _ = flock(fd, LOCK_UN)
             return false
         }
@@ -255,7 +273,7 @@ enum Files {
     static func tailLines(_ path: String, len: Int64, bytes: Int64) -> [Substring] {
         guard bytes > 0, let h = FileHandle(forReadingAtPath: path) else { return [] }
         defer { try? h.close() }
-        guard (try? h.seek(toOffset: UInt64(len - bytes))) != nil,
+        guard (try? h.seek(toOffset: UInt64(max(0, len - bytes)))) != nil,
               let data = try? h.read(upToCount: Int(bytes)) else { return [] }
         var lines = String(decoding: data, as: UTF8.self).split(separator: "\n", omittingEmptySubsequences: false)
         if bytes < len, !lines.isEmpty { lines.removeFirst() } // first line of a partial read is cut off
@@ -301,16 +319,32 @@ enum Proc {
         kill(pid, 0) == 0 || errno == EPERM
     }
 
+    private static var lastTable: [pid_t: Info] = [:]
+
     /// pid -> (parent pid, short process name) for every process, via sysctl KERN_PROC_ALL.
+    /// Processes come and go between the sizing call and the read, so retry, and keep the last
+    /// good table rather than blanking every chat's host for a tick.
     static func table() -> [pid_t: Info] {
+        for _ in 0..<3 {
+            if let t = readTable(), !t.isEmpty { lastTable = t; return t }
+        }
+        return lastTable
+    }
+
+    private static func readTable() -> [pid_t: Info]? {
         var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_ALL, 0]
         var size = 0
-        guard sysctl(&mib, 3, nil, &size, nil, 0) == 0, size > 0 else { return [:] }
+        // namelen 4 is the documented form; fall back to 3 in case this kernel wants it.
+        var namelen: u_int = 4
+        if sysctl(&mib, namelen, nil, &size, nil, 0) != 0 || size == 0 {
+            namelen = 3
+            guard sysctl(&mib, namelen, nil, &size, nil, 0) == 0, size > 0 else { return nil }
+        }
         let stride = MemoryLayout<kinfo_proc>.stride
-        let capacity = size / stride + 32
+        let capacity = size / stride + 64
         var procs = [kinfo_proc](repeating: kinfo_proc(), count: capacity)
         size = capacity * stride
-        guard sysctl(&mib, 3, &procs, &size, nil, 0) == 0 else { return [:] }
+        guard sysctl(&mib, namelen, &procs, &size, nil, 0) == 0 else { return nil }
         var table: [pid_t: Info] = [:]
         for i in 0..<(size / stride) {
             var p = procs[i]

@@ -71,9 +71,13 @@ enum Palette {
 enum BarImage {
     static let side: CGFloat = 16, gap: CGFloat = 4, height: CGFloat = 18
 
-    static func render(_ sessions: [Session], _ states: [String: String]) -> NSImage {
+    static let maxSquares = 8 // a wider item can be dropped behind the notch
+
+    static func render(_ all: [Session], _ states: [String: String]) -> NSImage {
         let side = BarImage.side, gap = BarImage.gap, height = BarImage.height
-        let n = CGFloat(max(sessions.count, 1))
+        let sessions = Array(all.prefix(maxSquares))
+        let overflow = all.count - sessions.count
+        let n = CGFloat(max(sessions.count, 1)) + (overflow > 0 ? 0.75 : 0)
         let size = NSSize(width: n * side + (n - 1) * gap, height: height)
         let image = NSImage(size: size, flipped: true) { _ in
             guard let ctx = NSGraphicsContext.current?.cgContext else { return false }
@@ -108,6 +112,14 @@ enum BarImage {
                     ctx.fillPath()
                 }
             }
+            if overflow > 0 { // three dots standing in for the chats that didn't fit
+                let x = CGFloat(sessions.count) * (side + gap)
+                ctx.setFillColor(Palette.ns(0xFFFFFF, 0.55).cgColor)
+                for d in 0..<3 {
+                    ctx.addEllipse(in: CGRect(x: x + CGFloat(d) * 4, y: height / 2 - 1, width: 2, height: 2))
+                }
+                ctx.fillPath()
+            }
             return true
         }
         image.isTemplate = false // keep the colours; a template image would be drawn monochrome
@@ -122,7 +134,7 @@ struct BarLabel: View {
         if store.sessions.isEmpty {
             Image(systemName: "square.dashed")
         } else {
-            Image(nsImage: store.barImage)
+            Image(nsImage: store.barImage).renderingMode(.original)
         }
     }
 }
