@@ -110,7 +110,8 @@ class BarWindow : Window
         LostMouseCapture += (_, _) => EndDrag();
 
         var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(800) };
-        timer.Tick += (_, _) => { Refresh(); Reposition(); };
+        // Anything thrown on a tick would take the whole bar down; skip the frame instead.
+        timer.Tick += (_, _) => { try { Refresh(); Reposition(); } catch { } };
         timer.Start();
     }
 
@@ -168,7 +169,12 @@ class BarWindow : Window
     void Refresh()
     {
         if (_dragging) return;
-        var found = _discovery.Scan();
+        // /resume can leave two records for one session id (a stale status file and
+        // the live one); keep the most recent, or the duplicate key kills the timer.
+        var found = _discovery.Scan()
+            .GroupBy(s => s.Key)
+            .Select(g => g.OrderByDescending(s => s.Since).First())
+            .ToList();
         _states = found.ToDictionary(s => s.Key, Effective);
         // Notify when a chat goes from working to done while GoatBar is watching.
         if (_lastStates != null && NotifyOnFinish)

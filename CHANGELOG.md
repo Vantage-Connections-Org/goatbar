@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.3 (2026-09-20)
+
+- Fixed a crash on Windows: resuming a chat (`/resume`) could briefly produce two records for one session, and the duplicate key took the whole bar down. Duplicates are now collapsed to the most recent record, and a failed refresh skips that frame instead of exiting.
+
 ## v0.2.2 (2026-09-20)
 
 - macOS preview ships as a disk image (`GoatBar-mac-preview.dmg`): open it and drag GoatBar to Applications. The zip is still there for anyone who prefers it.
