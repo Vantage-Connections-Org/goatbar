@@ -51,11 +51,16 @@ jobs:
         with:
           ref: ${{ env.TAG }}
       - name: Build GoatBar.app
-        run: bash mac/build-app.sh && cp mac/build/GoatBar-mac.zip GoatBar-mac-preview.zip
+        run: |
+          bash mac/build-app.sh
+          cp mac/build/GoatBar-mac.zip GoatBar-mac-preview.zip
+          cp mac/build/GoatBar.dmg GoatBar-mac-preview.dmg
       - uses: actions/upload-artifact@v4
         with:
           name: mac
-          path: GoatBar-mac-preview.zip
+          path: |
+            GoatBar-mac-preview.zip
+            GoatBar-mac-preview.dmg
           if-no-files-found: error
 
   publish:
@@ -80,13 +85,13 @@ jobs:
 
           **Windows 10/11:** `GoatBar-windows-x64.zip`. Unzip anywhere (for example `%LOCALAPPDATA%\GoatBar`) and run `GoatBar.exe`. No .NET install needed. The exe isn't code-signed yet, so Windows SmartScreen may ask you to confirm: click *More info* then *Run anyway*.
 
-          **macOS 13+ (preview):** `GoatBar-mac-preview.zip`. A first build of the menu bar version. It compiles and packages in CI but hasn't been widely tested yet; please [open an issue](https://github.com/Vantage-Connections-Org/goatbar/issues) with what you see. Not notarized: macOS blocks it on first launch. Open System Settings > Privacy & Security, scroll to Security, and click *Open Anyway*.
+          **macOS 13+ (preview):** `GoatBar-mac-preview.dmg` (drag GoatBar to Applications), or the plain `GoatBar-mac-preview.zip`. A first build of the menu bar version. It compiles and packages in CI but hasn't been widely tested yet; please [open an issue](https://github.com/Vantage-Connections-Org/goatbar/issues) with what you see. Not notarized: macOS blocks it on first launch. Open System Settings > Privacy & Security, scroll to Security, and click *Open Anyway*.
 
           Optional live-step hook: see the README.
           EOF
           if [ -s changes.md ]; then { echo "## What's new"; cat changes.md; echo; cat notes.md; } > n2.md && mv n2.md notes.md; fi
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" GoatBar-windows-x64.zip GoatBar-mac-preview.zip --clobber
+            gh release upload "$TAG" GoatBar-windows-x64.zip GoatBar-mac-preview.zip GoatBar-mac-preview.dmg --clobber
           else
-            gh release create "$TAG" GoatBar-windows-x64.zip GoatBar-mac-preview.zip --title "GoatBar $TAG" --notes-file notes.md
+            gh release create "$TAG" GoatBar-windows-x64.zip GoatBar-mac-preview.zip GoatBar-mac-preview.dmg --title "GoatBar $TAG" --notes-file notes.md
           fi

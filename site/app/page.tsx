@@ -6,7 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { FAQ } from "@/lib/faq";
 import { GUIDES } from "@/content/guides";
-import { DOWNLOAD_URL, REPO_URL } from "@/lib/site";
+import { DOWNLOAD_URL, MAC_DOWNLOAD_URL, REPO_URL } from "@/lib/site";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 
 const INSTALL = `git clone ${REPO_URL}
@@ -205,10 +205,25 @@ export default function Home() {
                 On a Mac? Try the preview.
               </h2>
               <p className="mb-6 mt-3 max-w-[52ch] text-muted">
-                A menu bar version for macOS is in the works. An early preview is in the{" "}
-                <a href={`${REPO_URL}/releases/latest`} className="font-medium text-accent underline underline-offset-4">latest release</a>
-                {" "}if you want to try it. Leave your email and we&apos;ll tell you when the stable version ships.
+                The macOS menu bar version is an early preview: it works the same way, but has had far less
+                testing than the Windows app. Try it and tell us what breaks.
               </p>
+              <a
+                href={MAC_DOWNLOAD_URL}
+                className="mb-6 inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-accent-ink transition hover:brightness-110 active:scale-[0.98]"
+              >
+                <AppleLogo size={20} weight="fill" />
+                Download for Mac (preview)
+              </a>
+              <ol className="mb-8 grid gap-2 text-sm text-muted">
+                <li>1. Open the disk image and drag GoatBar to Applications.</li>
+                <li>
+                  2. First launch is blocked because the app is not notarized yet. Open System Settings, go to
+                  Privacy &amp; Security, scroll to Security and click <span className="font-medium text-text">Open Anyway</span>.
+                </li>
+                <li>3. The squares appear in your menu bar. Click one to jump to that chat.</li>
+              </ol>
+              <p className="mb-4 max-w-[52ch] text-muted">Want an email when the stable version ships?</p>
               <WaitlistForm />
             </Reveal>
           </div>

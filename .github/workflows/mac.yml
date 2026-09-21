@@ -63,6 +63,15 @@ jobs:
           path: mac/menubar-full.png
           if-no-files-found: ignore
 
+      - name: Check the disk image mounts
+        run: |
+          set -euo pipefail
+          hdiutil attach build/GoatBar.dmg -mountpoint /tmp/gb -nobrowse -quiet
+          test -d /tmp/gb/GoatBar.app
+          test -L /tmp/gb/Applications
+          hdiutil detach /tmp/gb -quiet
+          echo "GoatBar.dmg mounts and contains GoatBar.app"
+
       - name: Upload GoatBar-mac.zip
         uses: actions/upload-artifact@v4
         with:

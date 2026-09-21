@@ -21,3 +21,11 @@ codesign --force --deep --sign - "$APP"
 
 ditto -c -k --keepParent "$APP" build/GoatBar-mac.zip
 echo "Built $APP and build/GoatBar-mac.zip"
+
+# Drag-to-Applications disk image, the usual way to hand a Mac app to someone.
+rm -rf build/dmg build/GoatBar.dmg
+mkdir -p build/dmg
+cp -R "$APP" build/dmg/
+ln -s /Applications build/dmg/Applications
+hdiutil create -volname "GoatBar" -srcfolder build/dmg -ov -format UDZO build/GoatBar.dmg >/dev/null
+echo "Built build/GoatBar.dmg"

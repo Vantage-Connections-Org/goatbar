@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.2 (2026-09-20)
+
+- macOS preview ships as a disk image (`GoatBar-mac-preview.dmg`): open it and drag GoatBar to Applications. The zip is still there for anyone who prefers it.
+- The website now has a Mac download button with the first-launch steps.
+
 ## v0.2.1 (2026-09-20)
 
 - macOS preview: fixes found in review before the first real-Mac run. It no longer reads whole transcripts at launch (which could hang or exhaust memory), probes Codex lock files with a shared lock instead of an exclusive one, stops re-walking the sessions folder every second when a rollout file is missing, handles microsecond timestamps, keeps working when Codex runs under a node wrapper, shows notifications while the dropdown is open, and caps the menu bar at 8 squares with an overflow marker.
